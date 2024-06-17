@@ -1,0 +1,14 @@
+[build]
+  functions = "backend"
+  publish = "frontend/dist"
+  command = "npm run build:all"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/index"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
