@@ -1,6 +1,6 @@
 <template>
   <div class="text-orange-600 flex justify-between mt-4 m-auto">
-    <div class="ml-1 md:ml-4">
+    <div class="ml-4">
       <div class="text-orange-500 font-semibold text-2xl">
         <RouterLink to="/">Pizza Shop</RouterLink>
       </div>
@@ -20,9 +20,11 @@
       </div>
     </div>
     <div class="hidden md:flex pl-4 pr-4 text-primary font-semibold text-xl">
-      <RouterLink to="/profile">Hello Sanket</RouterLink>
+      <RouterLink to="/profile">Profile</RouterLink>
     </div>
-    <div class="hidden md:flex pl-4 pr-4 text-primary font-semibold text-xl">
+    <div
+      class="hidden md:flex pl-4 pr-4 pt-2 pb-2 text-primary font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
+    >
       Logout
     </div>
 
@@ -31,7 +33,10 @@
         <CartIcon />
       </RouterLink>
     </div>
-    <div class="md:hidden flex mr-2" @click="openMenu">
+    <div
+      class="md:hidden flex mr-2 border-2 border-orange-500 rounded-md"
+      @click="openMenu"
+    >
       <BarIcon v-if="!menuState" /><CloseIcon class="z-20" v-if="menuState" />
     </div>
   </div>
@@ -54,13 +59,17 @@
       <div class="pl-4 pr-4 font-semibold text-xl">
         <RouterLink to="/#contact">Contact</RouterLink>
       </div>
-      <div class="hidden md:flex pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/profile">Hello Sanket</RouterLink>
+      <div class="pl-4 pr-4 font-semibold text-xl">
+        <RouterLink to="/profile">Profile</RouterLink>
       </div>
-      <div class="mr-10 hidden md:flex">
+      <div class="pl-4 pr-4 font-semibold text-xl">
         <RouterLink to="/cart"> Cart </RouterLink>
       </div>
-      <div class="hidden md:flex pl-4 pr-4 font-semibold text-xl">Logout</div>
+      <div
+        class="p-4 w-4/5 text-center font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
+      >
+        Logout
+      </div>
     </div>
   </div>
 </template>
