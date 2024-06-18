@@ -1,6 +1,6 @@
 <template>
   <div class="text-orange-600 flex justify-between mt-4 m-auto">
-    <div class="ml-4">
+    <div class="ml-4 md:ml-16">
       <div class="text-orange-500 font-semibold text-2xl">
         <RouterLink to="/">Pizza Shop</RouterLink>
       </div>
@@ -28,7 +28,7 @@
       Logout
     </div>
 
-    <div class="mr-10 hidden md:flex">
+    <div class="mr-10 md:mr-28 hidden md:flex">
       <RouterLink to="/cart">
         <CartIcon />
       </RouterLink>
@@ -51,7 +51,7 @@
         <RouterLink to="/">Home</RouterLink>
       </div>
       <div class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/menu-list">Menu</RouterLink>
+        <RouterLink to="menu-list">Menu</RouterLink>
       </div>
       <div class="pl-4 pr-4 font-semibold text-xl">
         <RouterLink to="/#about-us">About</RouterLink>
