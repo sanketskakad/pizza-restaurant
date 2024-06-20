@@ -1,34 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const { MenuItem } = require('../schema/MenuItemSchema');
 
-let array = [];
-
-router.get('/', (req, res, next) => {
-  res.send(array);
+router.get('/', async (req, res, next) => {
+  const menus = await MenuItem.find();
+  console.log(menus);
+  res.send(menus);
 });
 
-router.post('/', (req, res, next) => {
-  array.push({ _id: array.length, ...req.body });
-  res.send(array);
+router.get('/:id', async (req, res, next) => {
+  const id = req.params.id;
+  const menus = await MenuItem.findOne({ _id: id });
+  console.log(menus);
+  res.send(menus);
 });
 
-router.put('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
+  await MenuItem.create(req.body);
+  const menus = await MenuItem.find();
+  res.send(menus);
+});
+
+router.put('/', async (req, res, next) => {
   const id = req.body._id;
   const body = req.body;
-  const newArr = array.map((el) => {
-    return id === el._id ? body : el;
-  });
-  array = newArr;
-  res.send(array);
+  await MenuItem.findOneAndUpdate({ _id: id }, body);
+  const menus = await MenuItem.find();
+  res.send(menus);
 });
 
-router.delete('/', (req, res, next) => {
-  const id = req.body._id;
-  const newArr = array.filter((el) => {
-    return id !== el._id;
-  });
-  array = newArr;
-  res.send(array);
+router.delete('/:id', async (req, res, next) => {
+  const id = req.params.id;
+  await MenuItem.deleteOne({ _id: id });
+  const menus = await MenuItem.find();
+  res.send(menus);
 });
 
 module.exports = router;

@@ -4,12 +4,17 @@
   "description": "Development of backend for online platform to order and manage pizza store",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "author": "Sanket Kakad",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.3",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }

@@ -8,7 +8,7 @@ const emit = defineEmits(['click']);
 
 const styles = computed(() => {
   if (props.type === 'Secondary') {
-    return 'mt-5 tracking-wide font-semibold bg-gray-100 text-orange-500 w-full py-4 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none';
+    return 'mt-5 tracking-wide font-semibold bg-gray-100 border-2 text-orange-500 w-full py-4 rounded-lg hover:bg-orange-700 hover:text-orange-100 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none';
   }
   return 'mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none';
 });

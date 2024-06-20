@@ -1,7 +1,12 @@
 <template>
   <Header></Header>
   <div class="w-full md:w-9/12 p-1 m-auto">
-    <RouterView />
+    <Suspense>
+      <template #default>
+        <RouterView />
+      </template>
+      <template #fallback> loading </template>
+    </Suspense>
   </div>
 </template>
 

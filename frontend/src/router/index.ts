@@ -10,6 +10,7 @@ import OrderListPage from '@/pages/OrdersList.vue';
 import ProfilePage from '@/pages/Profile.vue';
 import ProfileInfoPage from '@/pages/ProfileInfo.vue';
 import CartPage from '@/pages/Cart.vue';
+import NotFoundPage from '@/pages/NotFound.vue';
 
 const routes: RouteRecordRaw[] = [
   { path: '/login', component: LoginPage, name: 'login' },
@@ -24,19 +25,26 @@ const routes: RouteRecordRaw[] = [
         component: AdminMenuListPage,
         name: 'admin-menu-list',
       },
-      {
-        path: 'menu-item/:id',
-        component: MenuItemsPage,
-        name: 'menu-item',
-      },
       { path: 'users', component: UserPage, name: 'users' },
       { path: 'orders-list', component: OrderListPage, name: 'orders-list' },
       { path: 'orders-item/:id', component: CartPage, name: 'orders-item' },
       { path: '', component: ProfileInfoPage, name: 'profile' },
     ],
   },
+  {
+    path: '/menu-item/:id',
+    component: MenuItemsPage,
+    name: 'menu-item-with-id',
+  },
+  {
+    path: '/menu-item',
+    component: MenuItemsPage,
+    name: 'menu-item',
+  },
   { path: '/cart', component: CartPage, name: 'cart' },
   { path: '/', component: Homepage, name: 'home' },
+  { path: '/404', component: NotFoundPage },
+  { path: '/:catchAll(.*)', redirect: '/404' },
 ];
 
 const router = createRouter({

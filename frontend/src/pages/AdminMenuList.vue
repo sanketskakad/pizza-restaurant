@@ -1,5 +1,32 @@
 <template>
-  <div>Menu</div>
+  <div class="w-1/2 m-auto">
+    <Button name="Add New Item" type="Secondary" @click="addMenu" />
+  </div>
+  <div class="flex mt-8">
+    <div class="flex-1 ml-2" v-for="product in menuStore.products">
+      <MenuCard
+        :product="product"
+        buttonText="Update"
+        @buttonClicked="() => updateItem(product)"
+      ></MenuCard>
+    </div>
+  </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Button from '@/components/Button.vue';
+import { useMenus } from '@/store/MenuStore';
+import { useRouter } from 'vue-router';
+import MenuCard from '@/components/MenuCard.vue';
+import { Menu } from '@/interfaces';
+
+const router = useRouter();
+const menuStore = useMenus();
+const addMenu = () => {
+  router.push('/menu-item');
+};
+
+const updateItem = (product: Menu) => {
+  router.push(`/menu-item/${product._id}`);
+};
+</script>
 <style scoped></style>
