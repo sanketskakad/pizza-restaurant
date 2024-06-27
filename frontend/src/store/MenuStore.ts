@@ -46,9 +46,9 @@ export const useMenus = defineStore('Menu', () => {
     }
   };
 
-  const deleteMenu = async (menu: Menu) => {
+  const deleteMenu = async (id: string) => {
     try {
-      const resp = await axios.delete(`/api/menus/${menu._id}`);
+      const resp = await axios.delete(`/api/menus/${id}`);
       products.value = resp.data;
     } catch (e) {
       console.log(e);

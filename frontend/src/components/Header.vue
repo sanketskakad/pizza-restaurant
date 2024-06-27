@@ -20,12 +20,14 @@
       </div>
     </div>
     <div class="hidden md:flex pl-4 pr-4 text-primary font-semibold text-xl">
-      <RouterLink to="/profile">Profile</RouterLink>
+      <RouterLink to="/profile" v-if="useUser.users">Profile</RouterLink>
     </div>
     <div
       class="hidden md:flex pl-4 pr-4 pt-2 pb-2 text-primary font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
+      @click="handleUserState"
     >
-      Logout
+      <span v-if="useUser.users">Logout</span>
+      <span v-if="!useUser.users">Login</span>
     </div>
 
     <div class="mr-10 md:mr-28 hidden md:flex">
@@ -42,6 +44,7 @@
   </div>
   <div
     v-if="menuState"
+    @click="openMenu"
     class="w-screen h-screen z-10 fixed top-0 left-0 md:hidden bg-orange-100"
   >
     <div
@@ -59,16 +62,18 @@
       <div class="pl-4 pr-4 font-semibold text-xl">
         <RouterLink to="/#contact">Contact</RouterLink>
       </div>
-      <div class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/profile">Profile</RouterLink>
+      <div v-if="useUser.users" class="pl-4 pr-4 font-semibold text-xl">
+        <RouterLink :to="`/profile/${useUser?.users?._id}`">Profile</RouterLink>
       </div>
-      <div class="pl-4 pr-4 font-semibold text-xl">
+      <div v-if="useUser.users" class="pl-4 pr-4 font-semibold text-xl">
         <RouterLink to="/cart"> Cart </RouterLink>
       </div>
       <div
         class="p-4 w-4/5 text-center font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
+        @click="handleUserState"
       >
-        Logout
+        <span v-if="useUser.users">Logout</span>
+        <span v-if="!useUser.users">Login</span>
       </div>
     </div>
   </div>
@@ -78,11 +83,23 @@ import CartIcon from '@/components/icons/CartIcon.vue';
 import BarIcon from '@/components/icons/BarIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 import { ref } from 'vue';
+import { useUsers } from '@/store/UserStore';
+import { useRouter } from 'vue-router';
 
 const menuState = ref(false);
+const router = useRouter();
+const useUser = useUsers();
 
 const openMenu = () => {
   menuState.value = !menuState.value;
+};
+
+const handleUserState = () => {
+  if (useUser.users) {
+    useUser.logout();
+  } else {
+    router.push('/login');
+  }
 };
 </script>
 <style></style>

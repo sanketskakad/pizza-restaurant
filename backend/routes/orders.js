@@ -16,7 +16,9 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   const id = req.body._id;
   const body = req.body;
-  await OrderItem.findOneAndUpdate({ _id: id }, body);
+  await OrderItem.findOneAndUpdate({ _id: id }, body, {
+    new: true,
+  });
   const orders = await OrderItem.find();
   res.send(orders);
 });

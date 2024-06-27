@@ -11,14 +11,18 @@
       </div>
       <div class="flex w-full">
         <div class="flex-1">
-          <Button type="Primary" name="Order Now " />
+          <Button
+            type="Primary"
+            name="Order Now"
+            @click="() => router.push('/menu-list')"
+          />
         </div>
         <div class="flex-1 ml-2">
-          <Button type="Secondary" name="Learn More " />
+          <Button variation="Secondary" name="Learn More" />
         </div>
       </div>
     </div>
-    <div class="flex-1 hidden lg:block">
+    <div class="flex-1 hidden lg:block self-center">
       <img src="@/assets/pizza.png" class="w-full" />
     </div>
   </div>
@@ -44,5 +48,8 @@
 </template>
 <script setup lang="ts">
 import Button from '@/components/Button.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
 <style></style>

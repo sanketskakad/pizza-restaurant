@@ -1,16 +1,26 @@
 <template>
-  <button :class="styles" @click="emit('click')">{{ name }}</button>
+  <button
+    @click="emit('click')"
+    v-if="props.variation === 'Secondary'"
+    class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+  >
+    <span
+      class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+    >
+      {{ name }} <slot></slot>
+    </span>
+  </button>
+  <button
+    type="button"
+    v-else
+    @click="emit('click')"
+    class="w-full text-white bg-gradient-to-br from-orange-600 to-red-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+  >
+    {{ name }} <slot></slot>
+  </button>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
-const props = defineProps({ name: String, type: String });
+const props = defineProps({ name: String, variation: String });
 const emit = defineEmits(['click']);
-
-const styles = computed(() => {
-  if (props.type === 'Secondary') {
-    return 'mt-5 tracking-wide font-semibold bg-gray-100 border-2 text-orange-500 w-full py-4 rounded-lg hover:bg-orange-700 hover:text-orange-100 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none';
-  }
-  return 'mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none';
-});
 </script>
 <style scoped></style>

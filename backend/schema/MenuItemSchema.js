@@ -13,7 +13,7 @@ const MenuItemSchema = new Schema(
     category: { type: String },
     basePrice: { type: Number },
     sizes: { type: [ExtraPriceSchema] },
-    extraIngredientPrices: { type: [ExtraPriceSchema] },
+    extraIngredients: { type: [ExtraPriceSchema] },
   },
   { timestamps: true }
 );

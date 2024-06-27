@@ -4,12 +4,14 @@
   "description": "Development of backend for online platform to order and manage pizza store",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon  index.js"
   },
   "author": "Sanket Kakad",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "firebase-admin": "^12.2.0",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.3",
     "serverless-http": "^3.2.0"

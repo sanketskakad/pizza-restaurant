@@ -1,9 +1,12 @@
 <template>
-  <div class="w-1/2 m-auto">
-    <Button name="Add New Item" type="Secondary" @click="addMenu" />
+  <div class="w-1/2 m-auto mt-10">
+    <Button name="Add New Item" variation="Secondary" @click="addMenu" />
   </div>
-  <div class="flex mt-8">
-    <div class="flex-1 ml-2" v-for="product in menuStore.products">
+  <div class="flex mt-8 flex-wrap w-full justify-evenly">
+    <div
+      class="basis-full md:basis-4/12 mt-5"
+      v-for="product in menuStore.products"
+    >
       <MenuCard
         :product="product"
         buttonText="Update"

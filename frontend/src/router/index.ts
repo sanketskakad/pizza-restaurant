@@ -1,16 +1,24 @@
-import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
-import RegisterPage from '@/pages/Register.vue';
-import LoginPage from '@/pages/Login.vue';
-import MenuItemsPage from '@/pages/MenuItems.vue';
-import MenuListPage from '@/pages/MenuList.vue';
-import AdminMenuListPage from '@/pages/AdminMenuList.vue';
-import Homepage from '@/pages/Home.vue';
-import UserPage from '@/pages/Users.vue';
-import OrderListPage from '@/pages/OrdersList.vue';
-import ProfilePage from '@/pages/Profile.vue';
-import ProfileInfoPage from '@/pages/ProfileInfo.vue';
-import CartPage from '@/pages/Cart.vue';
-import NotFoundPage from '@/pages/NotFound.vue';
+import { useUsers } from '@/store/UserStore';
+import {
+  createWebHistory,
+  createRouter,
+  RouteRecordRaw,
+  RouteLocationNormalized,
+  NavigationGuardNext,
+} from 'vue-router';
+
+const RegisterPage = () => import('@/pages/Register.vue');
+const LoginPage = () => import('@/pages/Login.vue');
+const MenuItemsPage = () => import('@/pages/MenuItems.vue');
+const MenuListPage = () => import('@/pages/MenuList.vue');
+const AdminMenuListPage = () => import('@/pages/AdminMenuList.vue');
+const Homepage = () => import('@/pages/Home.vue');
+const UserPage = () => import('@/pages/Users.vue');
+const OrderListPage = () => import('@/pages/OrdersList.vue');
+const ProfilePage = () => import('@/pages/Profile.vue');
+const ProfileInfoPage = () => import('@/pages/ProfileInfo.vue');
+const CartPage = () => import('@/pages/Cart.vue');
+const NotFoundPage = () => import('@/pages/NotFound.vue');
 
 const routes: RouteRecordRaw[] = [
   { path: '/login', component: LoginPage, name: 'login' },
@@ -19,16 +27,38 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/profile',
     component: ProfilePage,
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'menu-list',
         component: AdminMenuListPage,
         name: 'admin-menu-list',
+        meta: { requiresAuth: true, admin: true },
       },
-      { path: 'users', component: UserPage, name: 'users' },
-      { path: 'orders-list', component: OrderListPage, name: 'orders-list' },
-      { path: 'orders-item/:id', component: CartPage, name: 'orders-item' },
-      { path: '', component: ProfileInfoPage, name: 'profile' },
+      {
+        path: 'users',
+        component: UserPage,
+        name: 'users',
+        meta: { requiresAuth: true, admin: true },
+      },
+      {
+        path: 'orders-item/:id',
+        component: CartPage,
+        name: 'orders-item',
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'order-list',
+        component: OrderListPage,
+        name: 'orders-list',
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/profile/:id',
+        component: ProfileInfoPage,
+        name: 'profile',
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
@@ -41,7 +71,12 @@ const routes: RouteRecordRaw[] = [
     component: MenuItemsPage,
     name: 'menu-item',
   },
-  { path: '/cart', component: CartPage, name: 'cart' },
+  {
+    path: '/cart',
+    component: CartPage,
+    name: 'cart',
+    meta: { requiresAuth: true },
+  },
   { path: '/', component: Homepage, name: 'home' },
   { path: '/404', component: NotFoundPage },
   { path: '/:catchAll(.*)', redirect: '/404' },
@@ -52,5 +87,24 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach(
+  (
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) => {
+    const useUser = useUsers();
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (useUser.users) {
+        next();
+      } else {
+        router.push('/login');
+      }
+    } else {
+      next();
+    }
+  }
+);
 
 export default router;

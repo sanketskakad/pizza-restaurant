@@ -1,11 +1,7 @@
-export interface Order {
+import { Users } from '@/interfaces';
+
+export interface Order extends Users {
   _id?: string;
-  userEmail: string;
-  phone: string;
-  streetAddress: string;
-  postalCode: string;
-  city: string;
-  country: string;
   paid: boolean;
   date: string;
 }

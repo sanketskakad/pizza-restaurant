@@ -1,12 +1,20 @@
-import { Menu } from '@/interfaces';
+import { Menu, Order } from '@/interfaces';
 export interface Users {
-  _id: string;
+  _id?: string;
+  name?: string;
   email: string;
-  streetAddress: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  phone: string;
-  admin: false;
-  cart: Menu[];
+  imageUrl?: string;
+  streetAddress?: string;
+  postalCode?: string;
+  city?: string;
+  country?: string;
+  phone?: string;
+  admin?: boolean;
+  password?: string;
+  cart?: CartMenu[];
+  orders?: Order[];
+}
+
+export interface CartMenu extends Menu {
+  quantity: number;
 }

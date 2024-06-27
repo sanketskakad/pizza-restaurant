@@ -133,3 +133,5 @@ package-lock.json
 yarn.lock
 # Local Netlify folder
 .netlify
+.DS_Store
+firebase-config.json

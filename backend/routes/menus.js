@@ -24,7 +24,9 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   const id = req.body._id;
   const body = req.body;
-  await MenuItem.findOneAndUpdate({ _id: id }, body);
+  await MenuItem.findOneAndUpdate({ _id: id }, body, {
+    new: true,
+  });
   const menus = await MenuItem.find();
   res.send(menus);
 });
