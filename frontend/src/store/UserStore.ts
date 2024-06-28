@@ -89,7 +89,7 @@ export const useUsers = defineStore('Users', () => {
       );
       const uid = await loginUser.user.uid;
       console.log('loginUser', loginUser);
-      const resp = await axios.post('/api/users/login', { uid });
+      const resp = await axios.post('/api/login/login', { uid });
       users.value = resp.data;
       isLogin.value = true;
       router.push('/menu-list');
@@ -108,9 +108,9 @@ export const useUsers = defineStore('Users', () => {
       );
       const uid = await loginUser.user.uid;
       console.log('loginUser', loginUser);
-      const resp = await axios.post('/api/users/register', { uid, email });
+      const resp = await axios.post('/api/login/register', { uid, email });
       users.value = resp.data;
-      router.push('/profile');
+      router.push('/profile/' + resp.data._id);
     } catch (e) {
       console.log(e);
     }
@@ -119,24 +119,42 @@ export const useUsers = defineStore('Users', () => {
 
   const signInUsingGoogle = () => {
     signInWithPopup(auth, providerGoogle)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
+      .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        // const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
+        const uid = result.user.uid;
+        const resp = await axios.post('/api/login/login', { uid });
+        users.value = resp.data;
+        isLogin.value = true;
+        router.push('/menu-list');
+        console.log(result);
       })
       .catch((_) => {
-        // Handle Errors here.
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
-        // The email of the user's account used.
-        // const email = error.customData.email;
-        // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        logout();
+      });
+  };
+
+  const signUpUsingGoogle = () => {
+    signInWithPopup(auth, providerGoogle)
+      .then(async (result) => {
+        GoogleAuthProvider.credentialFromResult(result);
+        const uid = result.user.uid;
+        const email = result?.user.email;
+        const name = result.user?.displayName;
+        const imageUrl = result.user?.photoURL;
+        const phone = result.user?.phoneNumber;
+        const resp = await axios.post('/api/login/register', {
+          uid,
+          email,
+          name,
+          imageUrl,
+          phone,
+        });
+        users.value = resp.data;
+        router.push('/profile/' + resp.data._id);
+        console.log(result);
+      })
+      .catch((_) => {
+        logout();
       });
   };
 
@@ -167,5 +185,7 @@ export const useUsers = defineStore('Users', () => {
     login,
     logout,
     signUp,
+    signInUsingGoogle,
+    signUpUsingGoogle,
   };
 });

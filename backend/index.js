@@ -17,8 +17,8 @@ mongoose.connect(mongoUrl);
 app.use(express.json());
 app.use('/api/menus', menus);
 app.use('/api/orders', orders);
-app.use('/api/users', login);
-// app.use('/api/users', users);
+app.use('/api/login', login);
+app.use('/api/users', users);
 app.use('/api/admin', admin);
 
 module.exports.handler = serverless(app);

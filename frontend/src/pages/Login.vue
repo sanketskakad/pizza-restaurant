@@ -107,7 +107,13 @@ const username = ref<string>('');
 const password = ref<string>('');
 const router = useRouter();
 const userStore = useUsers();
-const signInUsingGoogle = () => {};
+const signInUsingGoogle = async () => {
+  try {
+    await userStore.signInUsingGoogle();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const loginHandler = async () => {
   try {
