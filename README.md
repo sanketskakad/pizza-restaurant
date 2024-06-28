@@ -1,3 +1,5 @@
+# [ Development is in Progress ]
+
 # pizza-restaurant
 
 Development of online platform to order and manage pizza store
@@ -16,16 +18,17 @@ Development of online platform to order and manage pizza store
 
 ## Admin view
 
-- [x] Firebase Registration
-- [x] Firebase Login
-- [x] Add Menus
-- [x] Update users
-- [x] Add to cart
-- [ ] order
+- ✅ Firebase Registration
+- ✅ Firebase Login
+- ✅ Add Menus
+- ✅ Update users
+- ✅ Add to cart
+- Orader Cart
+- Check Orders
 
 ## For Customer View
 
-- [x] Firebase Registration
-- [x] Firebase Login
-- [x] Add to cart
-- [ ] order
+- ✅ Firebase Registration
+- ✅ Firebase Login
+- ✅ Add to cart
+- Order Cart

@@ -241,7 +241,7 @@ const usersStore = useUsers();
 
 const id = route.params.id as string;
 
-if (!usersStore.users?.admin) {
+if (!usersStore?.isAdmin) {
   router.push('/');
 }
 

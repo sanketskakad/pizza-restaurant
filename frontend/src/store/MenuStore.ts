@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Menu } from '@/interfaces';
-import axios from 'axios';
+import axios from '@/utility/intercepter';
 
 export const useMenus = defineStore('Menu', () => {
   const products = ref<Menu[] | null>(null);

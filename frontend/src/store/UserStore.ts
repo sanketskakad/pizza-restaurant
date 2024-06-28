@@ -1,7 +1,7 @@
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import { Users, Menu, CartMenu } from '@/interfaces';
-import axios from 'axios';
+import axios from '@/utility/intercepter';
 import { useMenus } from '@/store/MenuStore';
 import { useRouter } from 'vue-router';
 import {
@@ -17,12 +17,17 @@ import {
 
 export const useUsers = defineStore('Users', () => {
   const users = ref<Users | null>(null);
+  const token = ref<string | null>(null);
   const menus = useMenus();
   const auth = getAuth();
   const isLogin = ref(false);
   const userCredential = ref<null | UserCredential>(null);
   const providerGoogle = new GoogleAuthProvider();
   const router = useRouter();
+
+  watch(token, (newVal) => {
+    sessionStorage.setItem('token', newVal);
+  });
 
   const getUser = async (id) => {
     try {
@@ -87,8 +92,9 @@ export const useUsers = defineStore('Users', () => {
         username,
         password
       );
-      const uid = await loginUser.user.uid;
+      const uid = loginUser.user.uid;
       console.log('loginUser', loginUser);
+      token.value = await loginUser.user.getIdToken();
       const resp = await axios.post('/api/login/login', { uid });
       users.value = resp.data;
       isLogin.value = true;
@@ -108,6 +114,7 @@ export const useUsers = defineStore('Users', () => {
       );
       const uid = await loginUser.user.uid;
       console.log('loginUser', loginUser);
+      token.value = await loginUser.user.getIdToken();
       const resp = await axios.post('/api/login/register', { uid, email });
       users.value = resp.data;
       router.push('/profile/' + resp.data._id);
@@ -122,6 +129,7 @@ export const useUsers = defineStore('Users', () => {
       .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;
+        token.value = await result.user.getIdToken();
         const resp = await axios.post('/api/login/login', { uid });
         users.value = resp.data;
         isLogin.value = true;
@@ -142,6 +150,7 @@ export const useUsers = defineStore('Users', () => {
         const name = result.user?.displayName;
         const imageUrl = result.user?.photoURL;
         const phone = result.user?.phoneNumber;
+        token.value = await result.user.getIdToken();
         const resp = await axios.post('/api/login/register', {
           uid,
           email,
@@ -158,9 +167,17 @@ export const useUsers = defineStore('Users', () => {
       });
   };
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      users.value = user;
+  onAuthStateChanged(auth, async (loginUser) => {
+    if (loginUser) {
+      if (!users.value) {
+        const uid = await loginUser.uid;
+        console.log('loginUser', loginUser);
+        token.value = await loginUser.getIdToken();
+        const resp = await axios.post('/api/login/login', { uid });
+        users.value = resp.data;
+        isLogin.value = true;
+        router.push('/menu-list');
+      }
       console.log('login');
     } else {
       users.value = null;

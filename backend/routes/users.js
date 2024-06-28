@@ -4,7 +4,10 @@ const { UserInfo } = require('../schema/UsersSchema');
 const validateToken = require('./../services/validateToken');
 
 router.put('/', validateToken, async (req, res, next) => {
-  const uid = req.body._id;
+  if (req.decodedToken.uid !== req.body.uid) {
+    return res.status(401).send('Unauthorized');
+  }
+  const uid = req.body.uid;
   const body = req.body;
   console.log('req.body', req.body);
   const user = await UserInfo.findOneAndUpdate({ uid }, body, {

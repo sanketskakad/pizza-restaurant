@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Users } from '@/interfaces';
-import axios from 'axios';
+import axios from '@/utility/intercepter';
 
 export const useAdminMethods = defineStore('Admin', () => {
   const users = ref<Users[] | null>(null);

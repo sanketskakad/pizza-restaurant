@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Order } from '@/interfaces';
-import axios from 'axios';
+import axios from '@/utility/intercepter';
 
 export const useOrders = defineStore('Order', () => {
   const orders = ref<Order[] | null>(null);

@@ -30,9 +30,15 @@
       <span v-if="!useUser.users">Login</span>
     </div>
 
-    <div class="mr-10 md:mr-28 hidden md:flex">
+    <div class="relative mr-10 md:mr-28 hidden md:flex">
       <RouterLink to="/cart">
         <CartIcon />
+        <div
+          v-if="useUser?.users?.cart"
+          class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900"
+        >
+          {{ useUser?.users?.cart.length }}
+        </div>
       </RouterLink>
     </div>
     <div
@@ -82,13 +88,21 @@
 import CartIcon from '@/components/icons/CartIcon.vue';
 import BarIcon from '@/components/icons/BarIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useUsers } from '@/store/UserStore';
 import { useRouter } from 'vue-router';
 
 const menuState = ref(false);
 const router = useRouter();
 const useUser = useUsers();
+
+watch(
+  useUser,
+  () => {
+    console.log('useUser', useUser.users);
+  },
+  { deep: true }
+);
 
 const openMenu = () => {
   menuState.value = !menuState.value;

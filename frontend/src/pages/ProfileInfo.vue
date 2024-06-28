@@ -128,7 +128,7 @@
             placeholder="Country"
           />
         </div>
-        <div class="mb-4" v-if="useUser.users.admin">
+        <div class="mb-4" v-if="useUser.isAdmin">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="admin">
             isAdmin
           </label>
