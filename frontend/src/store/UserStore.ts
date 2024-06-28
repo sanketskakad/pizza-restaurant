@@ -66,9 +66,11 @@ export const useUsers = defineStore('Users', () => {
     }
   };
 
-  const updateCart = async (id: string, quantity: number) => {
+  const updateCart = async (id: string, quantity: number, index: number) => {
     if (quantity === 0) {
-      users.value.cart = users.value.cart.filter((el) => el._id !== id);
+      users.value.cart = users.value.cart.filter(
+        (el, i) => !(el._id === id && index === i)
+      );
     } else {
       const item = menus.products.find((el) => el._id === id);
       const newCartItem = { ...item, quantity };

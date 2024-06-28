@@ -6,10 +6,10 @@
         <div class="mt-5">
           <div
             class="bg-orange-100 mt-3"
-            v-for="item in userStore.users.cart"
+            v-for="(item, index) in userStore.users.cart"
             :key="item._id"
           >
-            <CartCard :item="item" @click="deleteItem(item)" />
+            <CartCard :item="item" @click="deleteItem(item, index)" />
           </div>
         </div>
       </div>
@@ -148,8 +148,8 @@ if (!userStore.users) {
   router.push('/login');
 }
 
-const deleteItem = (item) => {
-  userStore.updateCart(item._id, 0);
+const deleteItem = (item, index) => {
+  userStore.updateCart(item._id, 0, index);
 };
 </script>
 <style scoped></style>
