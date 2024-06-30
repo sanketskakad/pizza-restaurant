@@ -2,7 +2,7 @@
   <div class="w-10/12 m-auto flex">
     <div class="mt-20 flex-1">
       <h1 class="text-5xl md:text-8xl">
-        Everything is better with a <span class="text-orange-500">Pizza</span>
+        <span class="text-orange-500">Pizza</span> Your Happiness Delivered
       </h1>
       <br />
       <div class="text-3xl mt-5">
