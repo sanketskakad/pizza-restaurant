@@ -26,7 +26,7 @@ const updateCart = (id, quantity) => {
   if (!userStore.users) {
     router.push('/login');
   } else {
-    userStore.updateCart(id, quantity);
+    userStore.updateCart(id, quantity, 0);
   }
 };
 </script>
