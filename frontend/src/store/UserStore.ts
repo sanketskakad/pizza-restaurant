@@ -12,7 +12,8 @@ import {
   signInWithEmailAndPassword,
   UserCredential,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from 'firebase/auth';
 
 export const useUsers = defineStore('Users', () => {
@@ -131,8 +132,9 @@ export const useUsers = defineStore('Users', () => {
     return userCredential;
   };
 
-  const signInUsingGoogle = () => {
-    signInWithPopup(auth, providerGoogle)
+  const signInUsingGoogle = async () => {
+    await signInWithRedirect(auth, providerGoogle);
+    getRedirectResult(auth)
       .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;
@@ -148,8 +150,9 @@ export const useUsers = defineStore('Users', () => {
       });
   };
 
-  const signUpUsingGoogle = () => {
-    signInWithPopup(auth, providerGoogle)
+  const signUpUsingGoogle = async () => {
+    await signInWithRedirect(auth, providerGoogle);
+    getRedirectResult(auth)
       .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;

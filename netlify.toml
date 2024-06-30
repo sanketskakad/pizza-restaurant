@@ -13,6 +13,9 @@
   to = "/.netlify/functions/distUserService/index"
   status = 200
 
+[headers.values]
+Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+
 
 
 [[redirects]]
