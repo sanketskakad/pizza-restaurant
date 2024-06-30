@@ -6,8 +6,8 @@
       </h1>
       <br />
       <div class="text-3xl mt-5">
-        Pizza is the missing piece that makes every day complete, a simple yet
-        delicious joy in life
+        Pizza is the daily joy that completes your life, a simple pleasure in
+        every bite.
       </div>
       <div class="flex w-full mt-10">
         <div class="w-1/2">
