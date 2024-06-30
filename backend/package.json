@@ -4,7 +4,10 @@
   "description": "Development of backend for online platform to order and manage pizza store",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon  index.js"
+    "start": "nodemon  index.js",
+    "userService": "cd userService && npm install && npm run build",
+    "adminService": "cd adminService && npm install && npm run build",
+    "build": "npm run adminService && npm run userService"
   },
   "author": "Sanket Kakad",
   "license": "ISC",

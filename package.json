@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build:frontend": "cd frontend && npm install && npm run build",
-    "build:backend": "cd backend && npm install",
-    "build:all": "npm run build:frontend && npm run build:backend"
+    "build:backend": "cd backend && npm install && npm run build",
+    "build:all": "npm run build:frontend && npm run build:backend && echo completed"
   },
   "author": "Sanket Kakad",
   "license": "ISC"

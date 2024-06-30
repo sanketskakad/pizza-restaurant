@@ -20,7 +20,7 @@ import Button from '@/components/Button.vue';
 import { useMenus } from '@/store/MenuStore';
 import { useRouter } from 'vue-router';
 import MenuCard from '@/components/MenuCard.vue';
-import { Menu } from '@/interfaces';
+import { ProductInterface } from '@/interfaces';
 
 const router = useRouter();
 const menuStore = useMenus();
@@ -28,7 +28,7 @@ const addMenu = () => {
   router.push('/menu-item');
 };
 
-const updateItem = (product: Menu) => {
+const updateItem = (product: ProductInterface) => {
   router.push(`/menu-item/${product._id}`);
 };
 </script>

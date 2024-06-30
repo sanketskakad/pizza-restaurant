@@ -6,11 +6,12 @@
         <div class="mt-5">
           <div
             class="bg-orange-100 mt-3"
-            v-for="(item, index) in userStore.users.cart"
+            v-for="(item, index) in userStore.users.cart.items"
             :key="item._id"
           >
             <CartCard :item="item" @click="deleteItem(item, index)" />
           </div>
+          <div></div>
         </div>
       </div>
     </div>
@@ -136,7 +137,6 @@
 </template>
 <script setup lang="ts">
 import CartCard from '@/components/CartCard.vue';
-import { Users } from '@/interfaces';
 import { useUsers } from '@/store/UserStore';
 import { useRouter } from 'vue-router';
 

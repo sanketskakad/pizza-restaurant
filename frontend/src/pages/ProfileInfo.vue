@@ -153,7 +153,7 @@
     <div class="text-3xl text-orange-500">Cart</div>
     <div
       class="bg-orange-100 mt-3"
-      v-for="item in useUser.users.cart"
+      v-for="item in useUser.users.cart.items"
       :key="item._id"
     >
       <CartCard :item="item" />
@@ -162,7 +162,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { Menu, Users } from '@/interfaces';
+import { ProductInterface, UserInterface } from '@/interfaces';
 import CartCard from '@/components/CartCard.vue';
 import { useMenus } from '@/store/MenuStore';
 import { useRoute } from 'vue-router';
@@ -178,11 +178,12 @@ if (id) {
 
 let formDetails = {
   admin: false,
-  cart: [],
+  cart: { total: 0, tax: 0, finalTotal: 0, items: [] },
   city: '',
   country: '',
   email: '',
   name: '',
+  uid: '',
   orders: [],
   phone: '',
   postalCode: '',
@@ -193,7 +194,7 @@ if (id) {
   formDetails = { ...formDetails, ...user };
 }
 
-const userProfile = reactive<{ formData: Users }>({
+const userProfile = reactive<{ formData: UserInterface }>({
   formData: formDetails,
 });
 

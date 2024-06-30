@@ -1,13 +1,13 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import { Menu } from '@/interfaces';
+import { ProductInterface } from '@/interfaces';
 import axios from '@/utility/intercepter';
 
 export const useMenus = defineStore('Menu', () => {
-  const products = ref<Menu[] | null>(null);
+  const products = ref<ProductInterface[] | null>(null);
 
   axios
-    .get('/api/menus')
+    .get('/api/users/products/')
     .then((resp) => (products.value = resp.data))
     .catch(console.log);
 
@@ -18,9 +18,9 @@ export const useMenus = defineStore('Menu', () => {
     return [];
   });
 
-  const addMenu = async (menu: Menu) => {
+  const addMenu = async (menu: ProductInterface) => {
     try {
-      const resp = await axios.post('/api/menus', menu);
+      const resp = await axios.post('/api/admin/products/', menu);
       products.value = resp.data;
     } catch (e) {
       console.log(e);
@@ -29,7 +29,7 @@ export const useMenus = defineStore('Menu', () => {
 
   const getMenuById = async (id: string) => {
     try {
-      const resp = await axios.get(`/api/menus/${id}`);
+      const resp = await axios.get(`/api/admin/products/${id}`);
       return resp.data;
     } catch (e) {
       console.log(e);
@@ -37,9 +37,9 @@ export const useMenus = defineStore('Menu', () => {
     return null;
   };
 
-  const editMenu = async (menu: Menu) => {
+  const editMenu = async (menu: ProductInterface) => {
     try {
-      const resp = await axios.put('/api/menus', menu);
+      const resp = await axios.put('/api/admin/products/', menu);
       products.value = resp.data;
     } catch (e) {
       console.log(e);
@@ -48,7 +48,7 @@ export const useMenus = defineStore('Menu', () => {
 
   const deleteMenu = async (id: string) => {
     try {
-      const resp = await axios.delete(`/api/menus/${id}`);
+      const resp = await axios.delete(`/api/admin/products/${id}`);
       products.value = resp.data;
     } catch (e) {
       console.log(e);

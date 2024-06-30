@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const { model, Schema } = mongoose;
+import { Schema, Types, model } from 'mongoose';
+import ProductInterface from '../interfaces/Product';
+
 const ExtraPriceSchema = new Schema({
   name: String,
   price: Number,
 });
 
-const MenuItemSchema = new Schema(
+const ProductSchema = new Schema<ProductInterface>(
   {
     imageUrl: { type: String },
     itemName: { type: String },
@@ -18,4 +19,4 @@ const MenuItemSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports.MenuItem = model('MenuItem', MenuItemSchema);
+export const ProductModel = model('Product', ProductSchema);

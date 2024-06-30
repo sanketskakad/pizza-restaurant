@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
-import { Users, Menu, CartMenu } from '@/interfaces';
+import { UserInterface, ProductInterface } from '@/interfaces';
 import axios from '@/utility/intercepter';
 import { useMenus } from '@/store/MenuStore';
 import { useRouter } from 'vue-router';
@@ -16,7 +16,7 @@ import {
 } from 'firebase/auth';
 
 export const useUsers = defineStore('Users', () => {
-  const users = ref<Users | null>(null);
+  const users = ref<UserInterface | null>(null);
   const token = ref<string | null>(null);
   const menus = useMenus();
   const auth = getAuth();
@@ -31,7 +31,7 @@ export const useUsers = defineStore('Users', () => {
 
   const getUser = async (id) => {
     try {
-      const resp = await axios.get(`/api/users/${id}`);
+      const resp = await axios.get(`/api/users/user/${id}`);
       return resp.data;
     } catch (e) {
       console.log(e);
@@ -39,7 +39,7 @@ export const useUsers = defineStore('Users', () => {
     return null;
   };
 
-  const addUsers = async (user: Users) => {
+  const addUsers = async (user: UserInterface) => {
     try {
       const resp = await axios.post('/api/users', user);
       users.value = resp.data;
@@ -48,7 +48,7 @@ export const useUsers = defineStore('Users', () => {
     }
   };
 
-  const editUsers = async (user: Users) => {
+  const editUsers = async (user: UserInterface) => {
     try {
       const resp = await axios.put('/api/users', user);
       users.value = resp.data;
@@ -57,7 +57,7 @@ export const useUsers = defineStore('Users', () => {
     }
   };
 
-  const deleteUsers = async (user: Users) => {
+  const deleteUsers = async (user: UserInterface) => {
     try {
       const resp = await axios.delete(`/api/users/${user._id}`);
       users.value = resp.data;
@@ -66,19 +66,24 @@ export const useUsers = defineStore('Users', () => {
     }
   };
 
-  const updateCart = async (id: string, quantity: number, index: number) => {
+  const updateCart = async (id: string, quantity: number, index?: number) => {
     if (quantity === 0) {
-      users.value.cart = users.value.cart.filter(
+      users.value.cart.items = users.value.cart.items.filter(
         (el, i) => !(el._id === id && index === i)
       );
     } else {
       const item = menus.products.find((el) => el._id === id);
       const newCartItem = { ...item, quantity };
       if (!users.value?.cart) {
-        users.value.cart = [];
+        users.value.cart.items = [];
       }
-      users.value.cart = [newCartItem, ...users.value.cart];
+      users.value.cart.items = [newCartItem, ...users.value.cart.items];
     }
+    const obj = {};
+    obj['total'] = users.value?.cart.items.reduce((acc, item) => {
+      return acc + +item.basePrice;
+    }, 5);
+    obj['tax'] = '$5';
     const resp = await axios.put('/api/users', users.value);
     users.value = resp.data;
   };
@@ -97,7 +102,7 @@ export const useUsers = defineStore('Users', () => {
       const uid = loginUser.user.uid;
       console.log('loginUser', loginUser);
       token.value = await loginUser.user.getIdToken();
-      const resp = await axios.post('/api/login/login', { uid });
+      const resp = await axios.post('/api/users/login', { uid });
       users.value = resp.data;
       isLogin.value = true;
       router.push('/menu-list');
@@ -117,7 +122,7 @@ export const useUsers = defineStore('Users', () => {
       const uid = await loginUser.user.uid;
       console.log('loginUser', loginUser);
       token.value = await loginUser.user.getIdToken();
-      const resp = await axios.post('/api/login/register', { uid, email });
+      const resp = await axios.post('/api/users/register', { uid, email });
       users.value = resp.data;
       router.push('/profile/' + resp.data._id);
     } catch (e) {
@@ -132,7 +137,7 @@ export const useUsers = defineStore('Users', () => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;
         token.value = await result.user.getIdToken();
-        const resp = await axios.post('/api/login/login', { uid });
+        const resp = await axios.post('/api/users/login', { uid });
         users.value = resp.data;
         isLogin.value = true;
         router.push('/menu-list');
@@ -153,7 +158,7 @@ export const useUsers = defineStore('Users', () => {
         const imageUrl = result.user?.photoURL;
         const phone = result.user?.phoneNumber;
         token.value = await result.user.getIdToken();
-        const resp = await axios.post('/api/login/register', {
+        const resp = await axios.post('/api/users/register', {
           uid,
           email,
           name,
@@ -175,7 +180,7 @@ export const useUsers = defineStore('Users', () => {
         const uid = await loginUser.uid;
         console.log('loginUser', loginUser);
         token.value = await loginUser.getIdToken();
-        const resp = await axios.post('/api/login/login', { uid });
+        const resp = await axios.post('/api/users/login', { uid });
         users.value = resp.data;
         isLogin.value = true;
         router.push('/menu-list');

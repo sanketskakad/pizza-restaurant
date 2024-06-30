@@ -126,7 +126,7 @@
                   <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="basePrice"
-                    v-model="size.extraPrice"
+                    v-model="size.price"
                     type="text"
                     placeholder="Base Price"
                   />
@@ -172,7 +172,7 @@
                   </label>
                   <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    v-model="Ingredient.extraPrice"
+                    v-model="Ingredient.price"
                     type="text"
                     placeholder="Base Price"
                   />
@@ -206,7 +206,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { Menu } from '@/interfaces';
+import { ProductInterface } from '@/interfaces';
 import Accordion from '@/components/Accordion.vue';
 import { useMenus } from '@/store/MenuStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -216,20 +216,20 @@ import { useUsers } from '@/store/UserStore';
 
 const mode = ref<'Save' | 'Update'>('Save');
 
-const menu = reactive<{ formData: Menu }>({
+const menu = reactive<{ formData: ProductInterface }>({
   formData: {
     imageUrl: '',
     itemName: '',
     description: '',
     category: '',
-    basePrice: '',
+    basePrice: 0,
     sizes: [
-      { name: 'small', extraPrice: 2 },
-      { name: 'large', extraPrice: 6 },
+      { name: 'small', price: 2 },
+      { name: 'large', price: 6 },
     ],
     extraIngredients: [
-      { name: 'small', extraPrice: 2 },
-      { name: 'large', extraPrice: 6 },
+      { name: 'Cheese', price: 2 },
+      { name: 'Paneer', price: 6 },
     ],
   },
 });
@@ -262,6 +262,7 @@ const addProduct = () => {
 
 const deleteProduct = () => {
   menuStore.deleteMenu(id);
+  router.push('/profile/menu-list');
 };
 
 const deleteIngredients = (ingredient) => {
@@ -275,12 +276,12 @@ const deleteIngredients = (ingredient) => {
 const addIngredients = () => {
   menu.formData.extraIngredients = [
     ...menu.formData.extraIngredients,
-    { name: '', extraPrice: 0 },
+    { name: '', price: 0 },
   ];
 };
 
 const addSizes = () => {
-  menu.formData.sizes = [...menu.formData.sizes, { name: '', extraPrice: 0 }];
+  menu.formData.sizes = [...menu.formData.sizes, { name: '', price: 0 }];
 };
 
 const deleteSizes = (sizes) => {

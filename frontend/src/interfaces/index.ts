@@ -1,5 +1,5 @@
-import { Menu, Size, Ingredients } from '@/interfaces/MenuInterfaces';
-import { Order } from '@/interfaces/OrdersInterface';
-import { Users, CartMenu } from '@/interfaces/UsersInterface';
+import ProductInterface from '@/interfaces/ProductInterfaces';
+import OrderInterface from '@/interfaces/OrdersInterface';
+import UserInterface from '@/interfaces/UsersInterface';
 
-export type { Order, Menu, Size, Ingredients, Users, CartMenu };
+export type { OrderInterface, ProductInterface, UserInterface };

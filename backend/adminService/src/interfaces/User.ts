@@ -1,7 +1,9 @@
+import { Types } from 'mongoose';
 import { CartInterface } from './Cart';
+import OrderInterface from './Order';
 
-export default interface UserInterface {
-  _id?: string;
+export interface UserInterface {
+  _id?: Types.ObjectId;
   name: string;
   email: string;
   uid: string;
@@ -13,5 +15,5 @@ export default interface UserInterface {
   imageUrl: string;
   admin: boolean;
   cart: CartInterface;
-  orders: string[];
+  orders: Types.ObjectId[];
 }

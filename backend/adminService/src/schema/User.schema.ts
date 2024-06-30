@@ -1,6 +1,7 @@
-const { model, Schema } = require('mongoose');
+import { model, Schema } from 'mongoose';
+import { UserInterface } from '../interfaces/User';
 
-const UserInfoSchema = new Schema(
+const UserSchema = new Schema<UserInterface>(
   {
     name: { type: String },
     email: { type: String, required: true, unique: true },
@@ -10,13 +11,15 @@ const UserInfoSchema = new Schema(
     city: { type: String },
     country: { type: String },
     phone: { type: String },
-    password: { type: String },
     imageUrl: { type: String },
     admin: { type: Boolean, default: false },
-    cart: { type: Array, default: [] },
-    orders: { type: Array, default: [] },
+    cart: {
+      type: Schema.Types.Mixed,
+      default: { total: 0, tax: 0, finalTotal: 0, items: [] },
+    },
+    orders: { type: Schema.Types.Mixed, default: [] },
   },
   { timestamps: true }
 );
 
-module.exports.UserInfo = model('UserInfo', UserInfoSchema);
+export const UserModel = model('User', UserSchema);
