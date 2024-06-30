@@ -165,10 +165,11 @@ import { reactive, ref } from 'vue';
 import { ProductInterface, UserInterface } from '@/interfaces';
 import CartCard from '@/components/CartCard.vue';
 import { useMenus } from '@/store/MenuStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUsers } from '@/store/UserStore';
 
 const route = useRoute();
+const router = useRouter();
 const id = route.params.id as string;
 const useUser = useUsers();
 let user = null;
@@ -201,6 +202,7 @@ const userProfile = reactive<{ formData: UserInterface }>({
 const updateProfile = (e) => {
   e.preventDefault();
   useUser.editUsers(userProfile.formData);
+  router.push('/menu-list');
 };
 </script>
 <style scoped></style>

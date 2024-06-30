@@ -12,8 +12,7 @@ import {
   signInWithEmailAndPassword,
   UserCredential,
   GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
 } from 'firebase/auth';
 
 export const useUsers = defineStore('Users', () => {
@@ -51,7 +50,7 @@ export const useUsers = defineStore('Users', () => {
 
   const editUsers = async (user: UserInterface) => {
     try {
-      const resp = await axios.put('/api/users', user);
+      const resp = await axios.put('/api/users/user/', user);
       users.value = resp.data;
     } catch (e) {
       console.log(e);
@@ -132,9 +131,8 @@ export const useUsers = defineStore('Users', () => {
     return userCredential;
   };
 
-  const signInUsingGoogle = async () => {
-    await signInWithRedirect(auth, providerGoogle);
-    getRedirectResult(auth)
+  const signInUsingGoogle = () => {
+    signInWithPopup(auth, providerGoogle)
       .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;
@@ -150,9 +148,8 @@ export const useUsers = defineStore('Users', () => {
       });
   };
 
-  const signUpUsingGoogle = async () => {
-    await signInWithRedirect(auth, providerGoogle);
-    getRedirectResult(auth)
+  const signUpUsingGoogle = () => {
+    signInWithPopup(auth, providerGoogle)
       .then(async (result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const uid = result.user.uid;
