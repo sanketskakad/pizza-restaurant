@@ -70,16 +70,16 @@
                 >Orders</RouterLink
               >
             </li>
-            <li>
+            <li v-if="useUser.users?.admin">
               <RouterLink
-                to="/menu-list"
+                to="/admin/menu-list"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >Menu Items</RouterLink
               >
             </li>
-            <li>
+            <li v-if="useUser.users?.admin">
               <RouterLink
-                to="/users"
+                to="/admin/users"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >Users
               </RouterLink>

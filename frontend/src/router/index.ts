@@ -25,13 +25,13 @@ const routes: RouteRecordRaw[] = [
   { path: '/register', component: RegisterPage, name: 'signup' },
   { path: '/menu-list', component: MenuListPage, name: 'menu-list' },
   {
-    path: '/menu-list',
+    path: '/admin/menu-list',
     component: AdminMenuListPage,
     name: 'admin-menu-list',
     meta: { requiresAuth: true, admin: true },
   },
   {
-    path: '/users',
+    path: '/admin//users',
     component: UserPage,
     name: 'users',
     meta: { requiresAuth: true, admin: true },
