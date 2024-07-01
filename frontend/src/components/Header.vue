@@ -1,114 +1,204 @@
 <template>
-  <div class="text-orange-600 flex justify-between mt-4 m-auto">
-    <div class="ml-4 md:ml-16">
-      <div class="text-orange-500 font-semibold text-2xl">
-        <RouterLink to="/">Pizza Shop</RouterLink>
-      </div>
-    </div>
-    <div class="hidden md:flex">
-      <div class="pl-4 pr-4 text-primary font-semibold text-xl align-middle">
-        <RouterLink to="/">Home</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 text-primary font-semibold text-xl">
-        <RouterLink to="/menu-list">Menu</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 text-primary font-semibold text-xl">
-        <RouterLink to="/#about-us">About</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 text-primary font-semibold text-xl">
-        <RouterLink to="/#contact">Contact</RouterLink>
-      </div>
-    </div>
-    <div class="hidden md:flex pl-4 pr-4 text-primary font-semibold text-xl">
-      <RouterLink to="/profile" v-if="useUser.users">Profile</RouterLink>
-    </div>
+  <nav class="bg-white border-gray-200 dark:bg-gray-900 w-full">
     <div
-      class="hidden md:flex pl-4 pr-4 pt-2 pb-2 text-primary font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
-      @click="handleUserState"
+      class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >
-      <span v-if="useUser.users">Logout</span>
-      <span v-if="!useUser.users">Login</span>
-    </div>
-
-    <div class="relative mr-10 md:mr-28 hidden md:flex">
-      <RouterLink to="/cart">
-        <CartIcon />
-        <div
-          v-if="useUser?.users?.cart"
-          class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900"
-        >
-          {{ useUser?.users?.cart?.items.length }}
+      <RouterLink
+        to="/"
+        class="flex items-center space-x-3 rtl:space-x-reverse"
+      >
+        <div class="text-orange-500 font-semibold text-2xl">
+          <RouterLink to="/">Pizza Shop</RouterLink>
         </div>
       </RouterLink>
-    </div>
-    <div
-      class="md:hidden flex mr-2 border-2 border-orange-500 rounded-md"
-      @click="openMenu"
-    >
-      <BarIcon v-if="!menuState" /><CloseIcon class="z-20" v-if="menuState" />
-    </div>
-  </div>
-  <div
-    v-if="menuState"
-    @click="openMenu"
-    class="w-screen h-screen z-10 fixed top-0 left-0 md:hidden bg-orange-100"
-  >
-    <div
-      class="flex flex-col text-orange-700 items-center justify-evenly h-full"
-    >
-      <div class="pl-4 pr-4 font-semibold text-xl align-middle">
-        <RouterLink to="/">Home</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="menu-list">Menu</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/#about-us">About</RouterLink>
-      </div>
-      <div class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/#contact">Contact</RouterLink>
-      </div>
-      <div v-if="useUser.users" class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink :to="`/profile/${useUser?.users?._id}`">Profile</RouterLink>
-      </div>
-      <div v-if="useUser.users" class="pl-4 pr-4 font-semibold text-xl">
-        <RouterLink to="/cart"> Cart </RouterLink>
+      <div
+        class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
+      >
+        <button
+          type="button"
+          class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          id="user-menu-button"
+          aria-expanded="false"
+          data-dropdown-toggle="user-dropdown"
+          data-dropdown-placement="bottom"
+          @click="toggleProfileState"
+          v-if="useUser.users"
+        >
+          <span class="sr-only">Open user menu</span>
+          <img
+            v-if="useUser.users?.imageUrl"
+            class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+            :src="useUser.users?.imageUrl"
+            alt="SK"
+          />
+          <div
+            v-else
+            class="inline-block h-8 w-8 text-xl rounded-full border-orange-800 border-2 ring-2 ring-white bg-white text-orange-900"
+          >
+            {{ useUser.users?.email?.slice(0, 2).toUpperCase() || 'P' }}
+          </div>
+        </button>
+        <RouterLink to="/login" v-else>Login</RouterLink>
+
+        <!-- Dropdown menu -->
+        <div
+          class="z-50 absolute top-10 -translate-x-1/2 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+          :class="`${!profileState ? 'hidden' : ''}`"
+          id="user-dropdown"
+        >
+          <div class="px-4 py-3">
+            <span class="block text-sm text-gray-900 dark:text-white">{{
+              useUser.users?.name
+            }}</span>
+            <span
+              class="block text-sm text-gray-500 truncate dark:text-gray-400"
+              >{{ useUser.users?.email }}</span
+            >
+          </div>
+          <ul class="py-2" aria-labelledby="user-menu-button">
+            <li>
+              <RouterLink
+                :to="`/profile/${useUser.users?._id}`"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Profile</RouterLink
+              >
+            </li>
+            <li>
+              <RouterLink
+                to="/order-list"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Orders</RouterLink
+              >
+            </li>
+            <li>
+              <RouterLink
+                to="/menu-list"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Menu Items</RouterLink
+              >
+            </li>
+            <li>
+              <RouterLink
+                to="/users"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Users
+              </RouterLink>
+            </li>
+            <li v-if="useUser.users">
+              <div
+                @click="handleUserState"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+              >
+                Logout
+              </div>
+            </li>
+          </ul>
+        </div>
+        <button
+          data-collapse-toggle="navbar-user"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-user"
+          aria-expanded="false"
+          @click="toggleState"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg
+            class="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
       </div>
       <div
-        class="p-4 w-4/5 text-center font-semibold text-xl bg-orange-700 text-orange-100 rounded-lg"
-        @click="handleUserState"
+        class="items-center justify-between w-full md:flex md:w-auto md:order-1"
+        :class="`${menuState ? 'hidden' : ''}`"
+        id="navbar-user"
       >
-        <span v-if="useUser.users">Logout</span>
-        <span v-if="!useUser.users">Login</span>
+        <ul
+          class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+        >
+          <li>
+            <RouterLink
+              to="/"
+              class="block py-2 px-3 6uijtext-gray-900 rounded md:bg-transparent md:p-0 md:dark:text-orange-500"
+              aria-current="page"
+              >Home</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              to="/menu-list"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >Menu</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              to="/"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >About</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              to="/"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >Contact</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              to="/cart"
+              class="block relative py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              ><CartIcon />
+              <div
+                v-if="useUser?.users?.cart"
+                class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900"
+              >
+                {{ useUser?.users?.cart?.items.length }}
+              </div>
+            </RouterLink>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </nav>
 </template>
+
 <script setup lang="ts">
 import CartIcon from '@/components/icons/CartIcon.vue';
 import BarIcon from '@/components/icons/BarIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
-import { ref, watch } from 'vue';
+
+import { ref } from 'vue';
+const menuState = ref(true);
+const profileState = ref(false);
 import { useUsers } from '@/store/UserStore';
 import { useRouter } from 'vue-router';
 
-const menuState = ref(false);
 const router = useRouter();
 const useUser = useUsers();
-
-watch(
-  useUser,
-  () => {
-    console.log('useUser', useUser.users);
-  },
-  { deep: true }
-);
-
-const openMenu = () => {
+const toggleState = () => {
   menuState.value = !menuState.value;
 };
 
+const toggleProfileState = () => {
+  profileState.value = !profileState.value;
+};
 const handleUserState = () => {
+  menuState.value = true;
+  profileState.value = false;
   if (useUser.users) {
     useUser.logout();
   } else {
@@ -116,4 +206,5 @@ const handleUserState = () => {
   }
 };
 </script>
-<style></style>
+
+<style scoped></style>

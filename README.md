@@ -13,6 +13,7 @@ Development of online platform to order and manage pizza store
 - MongoDB
 - Mongoose JS
 - Firebase
+- Microservices
 
 # Implementation Status
 

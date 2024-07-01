@@ -257,12 +257,12 @@ if (id) {
 
 const addProduct = () => {
   menuStore.addMenu(menu.formData);
-  router.push('/profile/menu-list');
+  router.push('/menu-list');
 };
 
 const deleteProduct = () => {
   menuStore.deleteMenu(id);
-  router.push('/profile/menu-list');
+  router.push('/menu-list');
 };
 
 const deleteIngredients = (ingredient) => {

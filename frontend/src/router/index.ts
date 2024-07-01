@@ -25,41 +25,34 @@ const routes: RouteRecordRaw[] = [
   { path: '/register', component: RegisterPage, name: 'signup' },
   { path: '/menu-list', component: MenuListPage, name: 'menu-list' },
   {
-    path: '/profile',
-    component: ProfilePage,
+    path: '/menu-list',
+    component: AdminMenuListPage,
+    name: 'admin-menu-list',
+    meta: { requiresAuth: true, admin: true },
+  },
+  {
+    path: '/users',
+    component: UserPage,
+    name: 'users',
+    meta: { requiresAuth: true, admin: true },
+  },
+  {
+    path: '/orders-item/:id',
+    component: CartPage,
+    name: 'orders-item',
     meta: { requiresAuth: true },
-    children: [
-      {
-        path: 'menu-list',
-        component: AdminMenuListPage,
-        name: 'admin-menu-list',
-        meta: { requiresAuth: true, admin: true },
-      },
-      {
-        path: 'users',
-        component: UserPage,
-        name: 'users',
-        meta: { requiresAuth: true, admin: true },
-      },
-      {
-        path: 'orders-item/:id',
-        component: CartPage,
-        name: 'orders-item',
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'order-list',
-        component: OrderListPage,
-        name: 'orders-list',
-        meta: { requiresAuth: true },
-      },
-      {
-        path: '/profile/:id',
-        component: ProfileInfoPage,
-        name: 'profile',
-        meta: { requiresAuth: true },
-      },
-    ],
+  },
+  {
+    path: '/order-list',
+    component: OrderListPage,
+    name: 'orders-list',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/profile/:id',
+    component: ProfileInfoPage,
+    name: 'profile',
+    meta: { requiresAuth: true },
   },
   {
     path: '/menu-item/:id',
@@ -86,18 +79,6 @@ const router = createRouter({
   linkExactActiveClass: 'text-orange-900',
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
-      return {
-        selector: to.hash,
-        behavior: 'smooth',
-      };
-    } else if (savedPosition) {
-      return savedPosition;
-    } else {
-      return { x: 0, y: 0 };
-    }
-  },
 });
 
 router.beforeEach(

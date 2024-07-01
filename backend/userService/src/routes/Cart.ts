@@ -5,7 +5,7 @@ import { AdminRequestInterface } from '../interfaces/Common';
 
 const router = express.Router();
 
-router.post('/', async (req: AdminRequestInterface, res) => {
+router.put('/', async (req: AdminRequestInterface, res) => {
   const uid = req.decodedToken?.uid;
   if (!uid) {
     return res.status(401).send('Unauthorized');

@@ -73,19 +73,9 @@ export const useUsers = defineStore('Users', () => {
       );
     } else {
       const item = menus.products.find((el) => el._id === id);
-      const newCartItem = { ...item, quantity };
-      if (!users.value?.cart) {
-        users.value.cart.items = [];
-      }
-      users.value.cart.items = [newCartItem, ...users.value.cart.items];
+      const resp = await axios.put('/api/users/cart', item);
+      users.value = resp.data;
     }
-    const obj = {};
-    obj['total'] = users.value?.cart.items.reduce((acc, item) => {
-      return acc + +item.basePrice;
-    }, 5);
-    obj['tax'] = '$5';
-    const resp = await axios.put('/api/users', users.value);
-    users.value = resp.data;
   };
 
   const isAdmin = computed(() => {
