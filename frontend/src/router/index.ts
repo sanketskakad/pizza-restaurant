@@ -90,7 +90,15 @@ router.beforeEach(
     const useUser = useUsers();
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       if (useUser.users) {
-        next();
+        if (to.matched.some((record) => record.meta.admin)) {
+          if (useUser.users?.admin) {
+            next();
+          } else {
+            router.push('/');
+          }
+        } else {
+          next();
+        }
       } else {
         router.push('/login');
       }

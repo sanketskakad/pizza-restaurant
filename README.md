@@ -1,5 +1,7 @@
 # [ Development is in Progress ]
 
+## [Demo link](https://sanket-kakad-pizza-shop.netlify.app/)
+
 # pizza-restaurant
 
 Development of online platform to order and manage pizza store
