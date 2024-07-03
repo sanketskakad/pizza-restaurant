@@ -1,5 +1,8 @@
 <template>
-  <nav class="bg-white border-gray-200 dark:bg-gray-900 w-full">
+  <nav
+    class="bg-white border-gray-200 dark:bg-gray-900 w-full"
+    @click="closeProfile"
+  >
     <div
       class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >
@@ -43,7 +46,8 @@
         <!-- Dropdown menu -->
         <div
           class="z-50 absolute top-10 -translate-x-1/2 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-          :class="`${!profileState ? 'hidden' : ''}`"
+          v-if="profileState"
+          ref="target"
           id="user-dropdown"
         >
           <div class="px-4 py-3">
@@ -180,6 +184,7 @@
 import CartIcon from '@/components/icons/CartIcon.vue';
 import BarIcon from '@/components/icons/BarIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
+import { onClickOutside } from '@vueuse/core';
 
 import { ref } from 'vue';
 const menuState = ref(true);
@@ -187,14 +192,26 @@ const profileState = ref(false);
 import { useUsers } from '@/store/UserStore';
 import { useRouter } from 'vue-router';
 
+const target = ref(null);
 const router = useRouter();
 const useUser = useUsers();
 const toggleState = () => {
   menuState.value = !menuState.value;
 };
 
+const closeProfile = () => {
+  if (profileState.value) {
+    console.log('here');
+    profileState.value = false;
+  }
+};
+
+onClickOutside(target, (_) => {
+  profileState.value = false;
+});
+
 const toggleProfileState = () => {
-  profileState.value = !profileState.value;
+  setTimeout(() => (profileState.value = !profileState.value));
 };
 const handleUserState = () => {
   menuState.value = true;

@@ -125,17 +125,20 @@
         </div>
 
         <div class="mt-5">
-          <button
+          <Button
+            @click="orderNow"
+            :disabled="!!userStore.users"
             class="mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
           >
             Order Now
-          </button>
+          </Button>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import Button from '@/components/Button.vue';
 import CartCard from '@/components/CartCard.vue';
 import { useUsers } from '@/store/UserStore';
 import { useRouter } from 'vue-router';
@@ -147,6 +150,10 @@ const updateProfile = () => {};
 if (!userStore.users) {
   router.push('/login');
 }
+
+const orderNow = () => {
+ 
+};
 
 const deleteItem = (item, index) => {
   userStore.updateCart(item._id, 0, index);

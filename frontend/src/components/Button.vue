@@ -1,6 +1,7 @@
 <template>
   <button
     @click="emit('click')"
+    :disabled="disabled"
     v-if="props.variation === 'Secondary'"
     class="relative w-full inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
   >
@@ -20,7 +21,11 @@
   </button>
 </template>
 <script setup lang="ts">
-const props = defineProps({ name: String, variation: String });
+const props = defineProps({
+  name: String,
+  variation: String,
+  disabled: Boolean,
+});
 const emit = defineEmits(['click']);
 </script>
 <style scoped></style>

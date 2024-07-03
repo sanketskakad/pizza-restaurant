@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row mt-20">
+  <div class="flex w-3/4 m-auto flex-col md:flex-row mt-20">
     <div class="w-1/2 m-auto md:m-0 md:w-1/4">
       <div class="mb-4">
         Image Preview

@@ -107,6 +107,11 @@ const username = ref<string>('');
 const password = ref<string>('');
 const router = useRouter();
 const userStore = useUsers();
+
+if (userStore.users?.email) {
+  router.push('/');
+}
+
 const signInUsingGoogle = async () => {
   try {
     await userStore.signInUsingGoogle();

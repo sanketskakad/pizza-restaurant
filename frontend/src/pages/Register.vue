@@ -48,22 +48,46 @@
               <input
                 class="w-full px-8 py-4 rounded-lg font-medium bg-orange-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-orange-50"
                 type="email"
-                v-model="username"
+                v-model="userForm.username"
                 placeholder="Email"
               />
+              <span v-if="v$.username.$dirty" class="text-red-600">{{
+                v$.username.$errors.map((el) => {
+                  if (el.$validator === 'required') {
+                    return 'Please enter the email';
+                  }
+                  if (el.$validator === 'email') {
+                    return 'Please enter the valid email';
+                  }
+                })[0]
+              }}</span>
               <input
                 class="w-full px-8 py-4 rounded-lg font-medium bg-orange-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-orange-50 mt-5"
                 type="password"
-                v-model="password"
+                v-model="userForm.password"
                 placeholder="Password"
               />
+              <span v-if="v$.password.$dirty" class="text-red-600">{{
+                v$.password.$errors.map((el) => {
+                  if (el.$validator === 'required') {
+                    return 'Please enter the password';
+                  }
+                })[0]
+              }}</span>
 
               <input
                 class="w-full px-8 py-4 rounded-lg font-medium bg-orange-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-orange-50 mt-5"
                 type="password"
-                v-model="confirmPassword"
+                v-model="userForm.confirmPassword"
                 placeholder="Confirm Password"
               />
+              <span v-if="v$.confirmPassword.$dirty" class="text-red-600">{{
+                v$.confirmPassword.$errors.map((el) => {
+                  if (el.$validator === 'sameAs') {
+                    return 'Passwords do not match. Please try again';
+                  }
+                })[0]
+              }}</span>
               <button
                 @click="registerLogin"
                 class="mt-5 tracking-wide font-semibold bg-orange-500 text-gray-100 w-full py-4 rounded-lg hover:bg-orange-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
@@ -109,19 +133,32 @@
 <script setup lang="ts">
 import { useUsers } from '@/store/UserStore';
 import { getAuth } from 'firebase/auth';
-import { ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const username = ref<string>('');
-const password = ref<string>('');
-const confirmPassword = ref<string>('');
-const auth = getAuth();
+import { useVuelidate } from '@vuelidate/core';
+import { required, email, sameAs } from '@vuelidate/validators';
+
+const userForm = reactive({
+  username: '',
+  password: '',
+  confirmPassword: '',
+});
+
+const rules = computed(() => ({
+  username: { required, email },
+  password: { required },
+  confirmPassword: { sameAs: sameAs(userForm.password) },
+}));
+
+const v$ = useVuelidate(rules, userForm);
+
 const userState = useUsers();
 const router = useRouter();
 
-// if (userState.isLogin) {
-//   router.push('/');
-// }
+if (userState.users?.email) {
+  router.push('/');
+}
 
 const signUpUsingGoogle = async () => {
   try {
@@ -132,10 +169,13 @@ const signUpUsingGoogle = async () => {
 };
 
 const registerLogin = async () => {
-  try {
-    await userState.signUp(username.value, password.value);
-  } catch (e) {
-    console.log(e);
+  const isValidForm = await v$.value.$validate();
+  if (isValidForm) {
+    try {
+      await userState.signUp(userForm.username, userForm.password);
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 </script>

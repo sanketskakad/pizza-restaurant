@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <div class="w-full md:w-11/12 p-1 m-auto">
+  <div class="w-full min-h-screen md:w-11/12 p-1 m-auto">
     <Suspense>
       <template #default>
         <RouterView />
@@ -8,10 +8,12 @@
       <template #fallback> loading </template>
     </Suspense>
   </div>
+  <Footer></Footer>
 </template>
 
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
 import { initializeApp } from 'firebase/app';
 
