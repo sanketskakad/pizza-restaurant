@@ -150,14 +150,14 @@
     </div>
   </div>
   <div class="mt-5" v-if="useUser.users?.admin">
-    <div class="text-3xl text-orange-500">Cart</div>
+    <!-- <div class="text-3xl text-orange-500">Cart</div>
     <div
-      class="bg-orange-100 mt-3"
-      v-for="item in useUser.users?.cart?.items"
+      class="mx-auto mt-3"
+      v-for="item in userProfile.formData?.cart?.items"
       :key="item._id"
     >
       <CartCard :item="item" />
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -199,9 +199,9 @@ const userProfile = reactive<{ formData: UserInterface }>({
   formData: formDetails,
 });
 
-const updateProfile = (e) => {
+const updateProfile = async (e) => {
   e.preventDefault();
-  useUser.editUsers(userProfile.formData);
+  userProfile.formData = await useUser.editUsers(userProfile.formData);
   router.push('/menu-list');
 };
 </script>

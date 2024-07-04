@@ -51,7 +51,10 @@ export const useUsers = defineStore('Users', () => {
   const editUsers = async (user: UserInterface) => {
     try {
       const resp = await axios.put('/api/users/user/', user);
-      users.value = resp.data;
+      if (users.value._id === resp.data._id) {
+        users.value = resp.data;
+      }
+      return resp.data;
     } catch (e) {
       console.log(e);
     }

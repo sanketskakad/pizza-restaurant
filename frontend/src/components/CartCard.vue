@@ -6,7 +6,7 @@
       <img
         :src="item.imageUrl"
         class="w-16 md:w-32 max-w-full max-h-full"
-        alt="Apple Watch"
+        :alt="item.itemName"
       />
     </td>
     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
