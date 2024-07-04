@@ -22,7 +22,7 @@ router.put('/', async (req: AdminRequestInterface, res, next) => {
   const uid = req.decodedToken?.uid;
   const user = await UserModel.findOne({ uid });
   if (uid === body.uid || user?.admin) {
-    const users = await UserModel.findOneAndUpdate({ uid: user?.uid }, body, {
+    const users = await UserModel.findOneAndUpdate({ uid: body?.uid }, body, {
       new: true,
     });
     res.send(users);

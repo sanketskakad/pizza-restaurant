@@ -149,11 +149,11 @@
       </form>
     </div>
   </div>
-  <div class="mt-5" v-if="useUser.users.admin">
+  <div class="mt-5" v-if="useUser.users?.admin">
     <div class="text-3xl text-orange-500">Cart</div>
     <div
       class="bg-orange-100 mt-3"
-      v-for="item in useUser.users.cart.items"
+      v-for="item in useUser.users?.cart?.items"
       :key="item._id"
     >
       <CartCard :item="item" />

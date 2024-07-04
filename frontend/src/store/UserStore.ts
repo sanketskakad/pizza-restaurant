@@ -114,7 +114,7 @@ export const useUsers = defineStore('Users', () => {
       token.value = await loginUser.user.getIdToken();
       const resp = await axios.post('/api/users/register', { uid, email });
       users.value = resp.data;
-      router.push('/profile/' + resp.data._id);
+      router.push('/profile/' + uid);
     } catch (e) {
       console.log(e);
     }

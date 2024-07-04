@@ -90,7 +90,7 @@ router.beforeEach(
     const useUser = useUsers();
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       if (useUser.users) {
-        if (to.matched.some((record) => record.meta.admin)) {
+        if (to.matched.some((record) => record.meta?.admin)) {
           if (useUser.users?.admin) {
             next();
           } else {
