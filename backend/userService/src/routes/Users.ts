@@ -4,22 +4,32 @@ import { AdminRequestInterface } from '../interfaces/Common';
 
 const router = express.Router();
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', async (req: AdminRequestInterface, res, next) => {
   const id = req.params.id;
-  const users = await UserModel.findOne({ _id: id });
-  res.send(users);
+  const uid = req.decodedToken?.uid;
+  const user = await UserModel.findOne({ uid });
+  const body = req.body;
+  if (uid === id || user?.admin) {
+    const users = await UserModel.findOne({ uid: id });
+    res.send(users);
+  } else {
+    return res.status(401).send('Unauthorized');
+  }
 });
 
 router.put('/', async (req: AdminRequestInterface, res, next) => {
   const body = req.body;
   const uid = req.decodedToken?.uid;
-  if (uid !== body.uid) {
+  const user = await UserModel.findOne({ uid });
+  if (uid === body.uid || user?.admin) {
+    const users = await UserModel.findOneAndUpdate({ uid: user?.uid }, body, {
+      new: true,
+    });
+    res.send(users);
+  } else {
+    console.log('here');
     return res.status(401).send('Unauthorized');
   }
-  const users = await UserModel.findOneAndUpdate({ uid: uid }, body, {
-    new: true,
-  });
-  res.send(users);
 });
 
 router.delete('/:id', async (req, res, next) => {

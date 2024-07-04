@@ -256,7 +256,11 @@ if (id) {
 }
 
 const addProduct = () => {
-  menuStore.addMenu(menu.formData);
+  if (mode.value === 'Save') {
+    menuStore.addMenu(menu.formData);
+  } else if (mode.value === 'Update') {
+    menuStore.editMenu(menu.formData);
+  }
   router.push('/menu-list');
 };
 

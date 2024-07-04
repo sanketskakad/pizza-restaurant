@@ -4,12 +4,32 @@
     <div class="w-full md:w-5/12">
       <div>
         <div class="mt-5">
-          <div
-            class="bg-orange-100 mt-3"
-            v-for="(item, index) in userStore.users.cart.items"
-            :key="item._id"
-          >
-            <CartCard :item="item" @click="deleteItem(item, index)" />
+          <div class="bg-orange-100 mt-3">
+            <table
+              class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+            >
+              <thead
+                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+              >
+                <tr>
+                  <th scope="col" class="px-16 py-3">
+                    <span class="sr-only">Image</span>
+                  </th>
+                  <th scope="col" class="px-6 py-3">Product</th>
+                  <th scope="col" class="px-6 py-3">Qty</th>
+                  <th scope="col" class="px-6 py-3">Price</th>
+                  <th scope="col" class="px-6 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <CartCard
+                  v-for="(item, index) in userStore.users.cart.items"
+                  :item="item"
+                  @click="deleteItem(item, index)"
+                  class="mt-5"
+                />
+              </tbody>
+            </table>
           </div>
           <div></div>
         </div>
@@ -151,9 +171,7 @@ if (!userStore.users) {
   router.push('/login');
 }
 
-const orderNow = () => {
- 
-};
+const orderNow = () => {};
 
 const deleteItem = (item, index) => {
   userStore.updateCart(item._id, 0, index);

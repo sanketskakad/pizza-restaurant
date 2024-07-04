@@ -9,17 +9,12 @@
         <tr>
           <th scope="col" class="p-4">
             <div class="flex items-center">
-              <input
-                id="checkbox-all-search"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
               <label for="checkbox-all-search" class="sr-only">checkbox</label>
             </div>
           </th>
           <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Position</th>
-          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Contact Number</th>
+          <th scope="col" class="px-6 py-3">Membership</th>
           <th scope="col" class="px-6 py-3">Action</th>
         </tr>
       </thead>
@@ -34,10 +29,17 @@
             class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
           >
             <img
-              class="w-10 h-10 rounded-full"
-              :src="user.imageUrl"
-              :alt="user.name"
+              v-if="user?.imageUrl"
+              class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+              :src="user?.imageUrl"
+              alt="SK"
             />
+            <div
+              v-else
+              class="inline-block h-8 w-8 text-xl rounded-full border-orange-800 border-2 ring-2 ring-white bg-white text-orange-900"
+            >
+              {{ user?.email?.slice(0, 2).toUpperCase() || 'P' }}
+            </div>
             <div class="ps-3">
               <div class="text-base font-semibold">{{ user.name }}</div>
               <div class="font-normal text-gray-500">
@@ -49,13 +51,13 @@
           <td class="px-6 py-4">
             <div class="flex items-center">
               <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-              Online
+              Active
             </div>
           </td>
           <td class="px-6 py-4">
             <RouterLink
               :to="`/profile/${user.uid}`"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              class="font-medium text-orange-600 dark:text-orange-500 hover:underline"
               >Edit user</RouterLink
             >
           </td>

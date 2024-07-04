@@ -1,8 +1,8 @@
 <template>
   <div
-    class="w-full md:flex-wrap m-auto mt-20 flex flex-col md:flex-row content-between"
+    class="w-full md:flex-wrap items-stretch m-auto mt-20 flex flex-col md:flex-row content-between"
   >
-    <div class="p-4" v-for="product in menuStore.products">
+    <div class="p-4 basis-3/12" v-for="product in menuStore.products">
       <MenuCard
         :product="product"
         :buttonText="`Add to cart $${product?.basePrice}`"

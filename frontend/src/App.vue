@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <div class="w-full min-h-screen md:w-11/12 p-1 m-auto">
+  <div class="w-full min-h-screen md:w-11/12 p-1 m-auto mb-40">
     <Suspense>
       <template #default>
         <RouterView />

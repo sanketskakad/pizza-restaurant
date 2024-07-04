@@ -2,19 +2,15 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { OrderInterface } from '@/interfaces';
 import axios from '@/utility/intercepter';
+import { useUsers } from './UserStore';
 
 export const useOrders = defineStore('Order', () => {
-  const orders = ref<OrderInterface[] | null>(null);
-
-  axios
-    .get('/api/orders')
-    .then((resp) => (orders.value = resp.data))
-    .catch(console.log);
+  const userStore = useUsers();
 
   const addOrder = async (order: OrderInterface) => {
     try {
-      const resp = await axios.post('/api/orders', order);
-      orders.value = resp.data;
+      const resp = await axios.post('/api/users/order', order);
+      userStore.users = resp.data;
     } catch (e) {
       console.log(e);
     }
@@ -22,8 +18,8 @@ export const useOrders = defineStore('Order', () => {
 
   const editOrder = async (order: OrderInterface) => {
     try {
-      const resp = await axios.put('/api/orders', order);
-      orders.value = resp.data;
+      const resp = await axios.put('/api/users/order', order);
+      userStore.users = resp.data;
     } catch (e) {
       console.log(e);
     }
@@ -31,12 +27,12 @@ export const useOrders = defineStore('Order', () => {
 
   const deleteOrder = async (order: OrderInterface) => {
     try {
-      const resp = await axios.delete(`/api/orders/${order._id}`);
-      orders.value = resp.data;
+      const resp = await axios.delete(`/api/users/order/${order._id}`);
+      userStore.users = resp.data;
     } catch (e) {
       console.log(e);
     }
   };
 
-  return { orders, addOrder, editOrder, deleteOrder };
+  return { addOrder, editOrder, deleteOrder };
 });

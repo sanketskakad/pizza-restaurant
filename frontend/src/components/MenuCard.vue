@@ -1,14 +1,14 @@
 <template>
   <div
-    class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+    class="w-full h-full flex flex-col justify-between max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
   >
-    <a href="#">
+    <div class="h-9/12">
       <img
         class="p-8 rounded-t-lg"
         :src="product?.imageUrl"
         :alt="product?.itemName"
       />
-    </a>
+    </div>
     <div class="px-5 pb-5">
       <a href="#">
         <h5
@@ -89,11 +89,12 @@
         <span class="text-3xl font-bold text-gray-900 dark:text-white"
           >${{ product.basePrice }}</span
         >
-        <a
-          href="#"
+        <button
+          @click="emit('buttonClicked')"
           class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
-          >Add to cart</a
         >
+          {{ buttonText }}
+        </button>
       </div>
     </div>
   </div>

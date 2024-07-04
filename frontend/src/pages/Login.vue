@@ -45,13 +45,13 @@
               <input
                 class="w-full px-8 py-4 rounded-lg font-medium bg-orange-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-orange-50"
                 type="email"
-                v-model="username"
+                v-model="loginForm.username"
                 placeholder="Email"
               />
               <input
                 class="w-full px-8 py-4 rounded-lg font-medium bg-orange-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-orange-50 mt-5"
                 type="password"
-                v-model="password"
+                v-model="loginForm.password"
                 placeholder="Password"
               />
               <button
@@ -99,12 +99,14 @@
 <script setup lang="ts">
 import { useUsers } from '@/store/UserStore';
 import GoogleIcon from '@/components/icons/GoogleIcon.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-const username = ref<string>('');
-const password = ref<string>('');
+const loginForm = reactive({
+  username: '',
+  password: '',
+});
 const router = useRouter();
 const userStore = useUsers();
 
@@ -122,7 +124,7 @@ const signInUsingGoogle = async () => {
 
 const loginHandler = async () => {
   try {
-    await userStore.login(username.value, password.value);
+    await userStore.login(loginForm.username, loginForm.password);
   } catch (e) {
     console.log(e);
   }
